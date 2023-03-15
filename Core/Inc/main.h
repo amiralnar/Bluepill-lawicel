@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "GVRET.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -41,6 +41,14 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
+extern UART_HandleTypeDef *huart_active;
+extern UART_HandleTypeDef *huart_lin;
+
+extern uint8_t uart_rx_bufer[1024];
+extern uint32_t uart_rx_pointer_w;
+extern uint32_t uart_rx_pointer_r;
+extern uint8_t uart_rx_char;
+
 
 /* USER CODE END EC */
 
@@ -53,6 +61,8 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+void Check_Command(uint8_t uart_rx_char);
+HAL_StatusTypeDef Save_to_File(uint8_t * buf, uint32_t len);
 
 /* USER CODE END EFP */
 
