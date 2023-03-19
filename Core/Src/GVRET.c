@@ -280,7 +280,7 @@ HAL_StatusTypeDef CAN_Init_Custom(uint32_t speed, uint32_t mode)
 
   hcan.Instance = CAN1;
   //hcan.Init.Prescaler = 16;
-  hcan.Init.Mode = CAN_MODE_NORMAL; //mode; //CAN_MODE_NORMAL;
+  hcan.Init.Mode = mode;
   hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
   //hcan.Init.TimeSeg1 = CAN_BS1_1TQ;
   //hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
@@ -1014,7 +1014,7 @@ uint8_t exec_usb_cmd (uint8_t * cmd_buf)
 
         	// Select Channel
         case SELECT_BUS_CHANEL:
-        	if(cmd_buf[1] < '0' || cmd_buf[1] > '4') return ERROR;
+        	if(cmd_buf[1] < '0' || cmd_buf[1] > '1') return ERROR;
         	eeprom_settings.numBus = HexTo4bits(cmd_buf[1]) - 1;
         	//Change_CAN_channel();
         	if(Open_CAN_cannel() != HAL_OK) return ERROR;
@@ -1338,18 +1338,10 @@ void Check_Command(uint8_t in_byte)
                 }*/
                 //}
                CAN_TxHeader.RTR = CAN_RTR_DATA;
-                if(HAL_CAN_AddTxMessage(&hcan, &CAN_TxHeader, can_tx_msg.data_byte, &CAN_mailbox) == HAL_OK && (conf.loger_run == true))
-                {
-                	can_tx_msg.timestamp = HAL_GetTick();
-                	can_tx_msg.can_dir = DIR_TRANSMIT;
-                	can_tx_msg.header.DLC = CAN_TxHeader.DLC;
-                	can_tx_msg.header.ExtId = CAN_TxHeader.ExtId;
-                	can_tx_msg.header.StdId = CAN_TxHeader.StdId;
-                	can_tx_msg.header.RTR = CAN_TxHeader.RTR;
-                	can_tx_msg.header.IDE = CAN_TxHeader.IDE;
-                	can_tx_msg.bus = eeprom_settings.numBus;
-                	CAN_Log_Buffer_Write_Data(can_tx_msg);
-                }
+               if(HAL_CAN_AddTxMessage(&hcan, &CAN_TxHeader, can_tx_msg.data_byte, &CAN_mailbox) == HAL_OK)
+               {
+            	   break;
+               }
 
             }
             break;
@@ -1723,7 +1715,7 @@ HAL_StatusTypeDef Close_LIN_cannel(void)
 HAL_StatusTypeDef Open_CAN_cannel()
 {
 	Change_CAN_channel();
-	if(CAN_Init_Custom(eeprom_settings.CAN_Speed[eeprom_settings.numBus], eeprom_settings.CAN_mode[eeprom_settings.numBus]) == HAL_OK)//);CAN_MODE_LOOPBACK
+	if(CAN_Init_Custom(eeprom_settings.CAN_Speed[eeprom_settings.numBus], eeprom_settings.CAN_mode[eeprom_settings.numBus]) == HAL_OK)//);  Debug CAN_MODE_LOOPBACK
 	{
 		  //if(SetFilterCAN(0, 0, 0, 0) != HAL_OK) return HAL_ERROR;
 		  if(HAL_CAN_Start(&hcan) != HAL_OK) return HAL_ERROR;

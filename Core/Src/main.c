@@ -252,23 +252,25 @@ int main(void)
 
 
   // first initialization
-  if(eeprom_settings.number_of_busses == 0xFF) {eeprom_settings.number_of_busses = 4;}
-  if(eeprom_settings.numBus == 0xFF) {eeprom_settings.numBus = 0;}
-  if(eeprom_settings.CAN_Speed[0] == 0xFFFFFFFF) {eeprom_settings.CAN_Speed[0] = 500000;}
-  if(eeprom_settings.CAN_Speed[1] == 0xFFFFFFFF) {eeprom_settings.CAN_Speed[1] = 125000;}
-  if(eeprom_settings.CAN_Speed[2] == 0xFFFFFFFF) {eeprom_settings.CAN_Speed[2] = 33333;}
-  if(eeprom_settings.CAN_Speed[3] == 0xFFFFFFFF) {eeprom_settings.CAN_Speed[3] = 10417;}
+  if(eeprom_settings.number_of_busses == 0) {eeprom_settings.number_of_busses = 1;}
+  if(eeprom_settings.numBus == 0) {eeprom_settings.numBus = 0;}
+  if(eeprom_settings.CAN_Speed[0] == 0) {eeprom_settings.CAN_Speed[0] = 500000;}
+  if(eeprom_settings.CAN_Speed[1] == 0) {eeprom_settings.CAN_Speed[1] = 250000;}
+  if(eeprom_settings.CAN_Speed[2] == 0) {eeprom_settings.CAN_Speed[2] = 125000;}
+  if(eeprom_settings.CAN_Speed[3] == 0) {eeprom_settings.CAN_Speed[3] = 10417;}
   for(int i=0; i<4;i++)
   {
-	  if(eeprom_settings.CAN_mode[i] == 0xFFFFFFFF) {eeprom_settings.CAN_mode[i] = CAN_MODE_SILENT;}
+	  if(eeprom_settings.CAN_mode[i] == 0) {eeprom_settings.CAN_mode[i] = CAN_MODE_SILENT;}
   }
-  if(eeprom_settings.UART_Speed == 0xFFFF) {eeprom_settings.UART_Speed = 115200;}
+  if(eeprom_settings.UART_Speed == 0) {eeprom_settings.UART_Speed = 1000000;}
 
-    // Check switch or incorrect data to reset UART speed
-  //huart2.Init.BaudRate = 115200;
-  //huart2.Init.BaudRate = 10000000;
-
-  HAL_UART_Init(&huart2);
+  //Debug SavvyCAN connection
+  HAL_UART_DeInit(huart_active);
+  huart2.Init.BaudRate = 1000000;
+  if (HAL_UART_Init(huart_active) != HAL_OK)
+  {
+	  return ERROR;
+  }
 
   conf.script_run = true;
   conf.scpipt_saving = false;
