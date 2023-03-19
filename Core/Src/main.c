@@ -265,7 +265,7 @@ int main(void)
   if(eeprom_settings.UART_Speed == 0xFFFF) {eeprom_settings.UART_Speed = 115200;}
 
     // Check switch or incorrect data to reset UART speed
-  huart2.Init.BaudRate = 115200;
+  //huart2.Init.BaudRate = 115200;
   //huart2.Init.BaudRate = 10000000;
 
   HAL_UART_Init(&huart2);

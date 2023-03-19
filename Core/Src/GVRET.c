@@ -203,89 +203,89 @@ HAL_StatusTypeDef CAN_Init_Custom(uint32_t speed, uint32_t mode)
 	switch(speed)
 	{
 		case 1000000:
-			hcan.Init.Prescaler = 4;
-			hcan.Init.TimeSeg1 = CAN_BS1_7TQ;
-			hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
+			hcan.Init.Prescaler = 2;
+			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
+			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 			break;
 		case 800000:
-			hcan.Init.Prescaler = 5;
+			hcan.Init.Prescaler = 4;
 			hcan.Init.TimeSeg1 = CAN_BS1_7TQ;
-			hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
+			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 			break;
 		case 500000:
 			hcan.Init.Prescaler = 4;
-			hcan.Init.TimeSeg1 = CAN_BS1_15TQ;
+			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
 			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 			break;
 		case 250000:
-			hcan.Init.Prescaler = 9;
+			hcan.Init.Prescaler = 8;
 			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
 			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 			break;
 		case 125000:
-			hcan.Init.Prescaler = 18;
+			hcan.Init.Prescaler = 16;
 			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
 			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 			break;
 		case 100000:
-			hcan.Init.Prescaler = 45;
-			hcan.Init.TimeSeg1 = CAN_BS1_6TQ;
-			hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
+			hcan.Init.Prescaler = 20;
+			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
+			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 			break;
 		case 50000://
-			hcan.Init.Prescaler = 45;
+			hcan.Init.Prescaler = 40;
 			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
 			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 			break;
-		case 20000:
-			hcan.Init.Prescaler = 120;
-			hcan.Init.TimeSeg1 = CAN_BS1_12TQ;
-			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
+//		case 20000:
+//			hcan.Init.Prescaler = 120;
+//			hcan.Init.TimeSeg1 = CAN_BS1_12TQ;
+//			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 			break;
 		case 10000:
-			hcan.Init.Prescaler = 255;
+			hcan.Init.Prescaler = 200;
 			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
 			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
 			break;
-		case 95238:
-			hcan.Init.Prescaler = 27;
-			hcan.Init.TimeSeg1 = CAN_BS1_11TQ;
-			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
-			break;
-		case 47619:
-			hcan.Init.Prescaler = 54;
-			hcan.Init.TimeSeg1 = CAN_BS1_11TQ;
-			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
-			break;
-		case 5000:
-			hcan.Init.Prescaler = 450;
-			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
-			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
-			break;
-		case 8333:
-			hcan.Init.Prescaler = 270;
-			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
-			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
-			break;
-		case 33333:
-			hcan.Init.Prescaler = 72;
-			hcan.Init.TimeSeg1 = CAN_BS1_12TQ;
-			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
-			break;
+//		case 95238:
+//			hcan.Init.Prescaler = 27;
+//			hcan.Init.TimeSeg1 = CAN_BS1_11TQ;
+//			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
+//			break;
+//		case 47619:
+//			hcan.Init.Prescaler = 54;
+//			hcan.Init.TimeSeg1 = CAN_BS1_11TQ;
+//			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
+//			break;
+//		case 5000:
+//			hcan.Init.Prescaler = 450;
+//			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
+//			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
+//			break;
+//		case 8333:
+//			hcan.Init.Prescaler = 270;
+//			hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
+//			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
+//			break;
+//		case 33333:
+//			hcan.Init.Prescaler = 72;
+//			hcan.Init.TimeSeg1 = CAN_BS1_12TQ;
+//			hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
+//			break;
 		default:
 			// custom btr calculation
-			STM_bxCAN_calc(36000000UL, speed, &hcan);
+			STM_bxCAN_calc(48000000UL, speed, &hcan);
 			break;
 	}
 
   hcan.Instance = CAN1;
   //hcan.Init.Prescaler = 16;
-  hcan.Init.Mode = mode; //CAN_MODE_NORMAL;
+  hcan.Init.Mode = CAN_MODE_NORMAL; //mode; //CAN_MODE_NORMAL;
   hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
   //hcan.Init.TimeSeg1 = CAN_BS1_1TQ;
   //hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
   hcan.Init.TimeTriggeredMode = DISABLE;
-  hcan.Init.AutoBusOff = DISABLE;
+  hcan.Init.AutoBusOff = ENABLE;
   hcan.Init.AutoWakeUp = DISABLE;
   hcan.Init.AutoRetransmission = DISABLE;
   hcan.Init.ReceiveFifoLocked = DISABLE;

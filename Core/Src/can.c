@@ -25,6 +25,7 @@
 /* USER CODE END 0 */
 
 CAN_HandleTypeDef hcan;
+CAN_FilterTypeDef sFilterConfig;
 
 /* CAN init function */
 void MX_CAN_Init(void)
@@ -38,7 +39,7 @@ void MX_CAN_Init(void)
 
   /* USER CODE END CAN_Init 1 */
   hcan.Instance = CAN1;
-  hcan.Init.Prescaler = 16;
+  hcan.Init.Prescaler = 160;
   hcan.Init.Mode = CAN_MODE_NORMAL;
   hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
   hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
@@ -54,7 +55,20 @@ void MX_CAN_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN CAN_Init 2 */
-
+  sFilterConfig.FilterBank=0;
+  sFilterConfig.FilterMode=CAN_FILTERMODE_IDMASK;
+  sFilterConfig.FilterScale=CAN_FILTERSCALE_32BIT;
+  sFilterConfig.FilterIdHigh=0x0000;
+  sFilterConfig.FilterIdLow=0x0000;
+  sFilterConfig.FilterMaskIdHigh=0x0000;
+  sFilterConfig.FilterMaskIdLow=0x0000;
+  sFilterConfig.FilterFIFOAssignment=CAN_RX_FIFO0;
+  sFilterConfig.FilterActivation=ENABLE;
+  sFilterConfig.SlaveStartFilterBank=14;
+  if(HAL_CAN_ConfigFilter(&hcan,&sFilterConfig)!=HAL_OK)
+  {
+	  Error_Handler();
+  }
   /* USER CODE END CAN_Init 2 */
 
 }

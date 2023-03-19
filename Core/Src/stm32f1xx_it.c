@@ -237,8 +237,11 @@ void DMA1_Channel7_IRQHandler(void)
   */
 void USB_LP_CAN1_RX0_IRQHandler(void)
 {
-  /* USER CODE BEGIN USB_LP_CAN1_RX0_IRQn 0 */
-
+	/* USER CODE BEGIN USB_LP_CAN1_RX0_IRQn 0 */
+//	if(HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &can_rx_buf[0].header, can_rx_buf[0].data_byte) != HAL_OK) return;
+//	can_rx_buf[0].timestamp = HAL_GetTick();
+//	can_rx_buf[0].bus = eeprom_settings.numBus;
+//	CAN_Buffer_Write_Data(can_rx_buf[0]);
   /* USER CODE END USB_LP_CAN1_RX0_IRQn 0 */
   HAL_CAN_IRQHandler(&hcan);
   /* USER CODE BEGIN USB_LP_CAN1_RX0_IRQn 1 */
